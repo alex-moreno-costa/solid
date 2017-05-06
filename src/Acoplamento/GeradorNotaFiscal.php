@@ -18,8 +18,10 @@ class GeradorNotaFiscal {
 
         $nf = new NotaFiscal($valor,$this->impostoSobreValor($valor));
 
-        $this->enviadorEmail->envia($nf);
-        $this->notaFiscalDao->persiste($nf);
+        $return[] = $this->enviadorEmail->enviaEmail($nf);
+        $return[] = $this->notaFiscalDao->persiste($nf);
+
+        return $return;
     }
 
     private function impostoSobreValor($valor) {
