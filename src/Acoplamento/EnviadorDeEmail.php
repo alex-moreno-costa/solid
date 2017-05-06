@@ -2,9 +2,11 @@
 
 namespace Amc\Solid\Acoplamento;
 
-class EnviadorDeEmail {
+class EnviadorDeEmail implements AcoesAposGerarNotaInterface
+{
 
-    public function enviaEmail(NotaFiscal $nf) {
+    public function executa(NotaFiscal $nf)
+    {
         return "email enviado";
     }
 }

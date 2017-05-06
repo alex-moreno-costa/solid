@@ -8,7 +8,11 @@ class GeradorDeNotaFiscalTest extends TestCase
 {
     public function testGeradorDeNotaFiscal()
     {
-        $gerador = new GeradorNotaFiscal(new EnviadorDeEmail(), new NotaFiscalDao());
+        $gerador = new GeradorNotaFiscal();
+
+        $gerador->adicionarAcaoAposGerarNota(new EnviadorDeEmail());
+        $gerador->adicionarAcaoAposGerarNota(new NotaFiscalDao());
+
         $actual = $gerador->gera(new Fatura());
 
         $this->assertEquals($actual[0],'email enviado');

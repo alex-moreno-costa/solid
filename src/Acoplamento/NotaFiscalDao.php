@@ -2,8 +2,10 @@
 
 namespace Amc\Solid\Acoplamento;
 
-class NotaFiscalDao {
-    public function persiste(NotaFiscal $nf) {
+class NotaFiscalDao implements AcoesAposGerarNotaInterface
+{
+    public function executa(NotaFiscal $nf)
+    {
         return "mandando pro dao";
     }
 }

@@ -2,29 +2,36 @@
 
 namespace Amc\Solid\Acoplamento;
 
-class GeradorNotaFiscal {
+class GeradorNotaFiscal
+{
+    private $acoes;
 
-    private $enviadorEmail;
-    private $notaFiscalDao;
-
-    public function __construct(EnviadorDeEmail $enviador,notaFiscalDao $nfDao) {
-        $this->enviadorEmail = $enviador;
-        $this->notaFiscalDao = $nfDao;
+    public function __construct()
+    {
+        $this->acoes = [];
     }
 
-    public function gera(Fatura $fatura) {
+    public function adicionarAcaoAposGerarNota(AcoesAposGerarNotaInterface $acao)
+    {
+        $this->acoes[] = $acao;
+    }
 
+    public function gera(Fatura $fatura)
+    {
         $valor = $fatura->getValorMensal();
 
-        $nf = new NotaFiscal($valor,$this->impostoSobreValor($valor));
+        $nf = new NotaFiscal($valor, $this->impostoSobreValor($valor));
 
-        $return[] = $this->enviadorEmail->enviaEmail($nf);
-        $return[] = $this->notaFiscalDao->persiste($nf);
+        $return = [];
+        foreach ($this->acoes as $acao) {
+            $return[] = $acao->executa($nf);
+        }
 
         return $return;
     }
 
-    private function impostoSobreValor($valor) {
+    private function impostoSobreValor($valor)
+    {
         return $valor * 0.06;
     }
 }
