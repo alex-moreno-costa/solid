@@ -5,41 +5,32 @@ require __DIR__ . "/../../vendor/autoload.php";
 use PHPUnit\Framework\TestCase;
 use Amc\Solid\SRP\Funcionario;
 use Amc\Solid\SRP\Desenvolvedor;
-use Amc\Solid\SRP\CalculadoraDeSalario;
 use Amc\Solid\SRP\Dba;
+use Amc\Solid\SRP\DezOuVintePorcento;
+use Amc\Solid\SRP\QuinzeOuVinteCincoPorcento;
 
 class CalculadoraDeSalarioTest extends TestCase
 {
     public function testCalculoDeSalario()
     {
-        $funcionario = new Funcionario();
+        $funcionario = new Funcionario(1500, new Desenvolvedor(new DezOuVintePorcento()));
         $funcionario->setNome('Alex Moreno');
         $funcionario->setDataAdmisao(new \DateTime('now'));
+        $this->assertEquals(1350,$funcionario->calcularSalario());
 
-        $funcionario->setCargo(new Desenvolvedor());
+        $funcionario = new Funcionario(4000, new Desenvolvedor(new DezOuVintePorcento()));
+        $funcionario->setNome('Alex Moreno');
+        $funcionario->setDataAdmisao(new \DateTime('now'));
+        $this->assertEquals(3200,$funcionario->calcularSalario());
 
-        $funcionario->setSalario(1500);
-        $valor = $this->calcularSalarioParaOFuncionario($funcionario);
-        $this->assertEquals(1350,$valor);
+        $funcionario = new Funcionario(1500, new Dba(new QuinzeOuVinteCincoPorcento()));
+        $funcionario->setNome('Alex Moreno');
+        $funcionario->setDataAdmisao(new \DateTime('now'));
+        $this->assertEquals(1275,$funcionario->calcularSalario());
 
-        $funcionario->setSalario(4000);
-        $valor = $this->calcularSalarioParaOFuncionario($funcionario);
-        $this->assertEquals(3200,$valor);
-
-        $funcionario->setCargo(new Dba());
-
-        $funcionario->setSalario(1500);
-        $valor = $this->calcularSalarioParaOFuncionario($funcionario);
-        $this->assertEquals(1275,$valor);
-
-        $funcionario->setSalario(4000);
-        $valor = $this->calcularSalarioParaOFuncionario($funcionario);
-        $this->assertEquals(3000,$valor);
-    }
-
-    private function calcularSalarioParaOFuncionario(Funcionario $funcionario)
-    {
-        $calculadora = new CalculadoraDeSalario();
-        return $calculadora->calcula($funcionario);
+        $funcionario = new Funcionario(4000, new Dba(new QuinzeOuVinteCincoPorcento()));
+        $funcionario->setNome('Alex Moreno');
+        $funcionario->setDataAdmisao(new \DateTime('now'));
+        $this->assertEquals(3000,$funcionario->calcularSalario());
     }
 }
