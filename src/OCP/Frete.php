@@ -2,7 +2,7 @@
 
 namespace Amc\Solid\OCP;
 
-class Frete
+class Frete implements EntregaInterface
 {
     public function para($cidade)
     {

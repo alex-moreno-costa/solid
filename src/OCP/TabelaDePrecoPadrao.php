@@ -2,7 +2,7 @@
 
 namespace Amc\Solid\OCP;
 
-class TabelaDePrecoPadrao
+class TabelaDePrecoPadrao implements TabelaDePrecosInterface
 {
     public function descontoPara($valor)
     {
