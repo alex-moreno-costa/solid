@@ -16,9 +16,9 @@ class ProcessadorDeBoletosTest extends TestCase
         $boletos[] = new Boleto(50);
 
         $processador = new ProcessadorDeBoletos();
-        $actual = $processador->processa($boletos, $fatura);
+        $processador->processa($boletos, $fatura);
 
-        $this->assertFalse($actual);
+        $this->assertFalse($fatura->isPago());
     }
 
     public function testDeveRetornarVerdadeiroPoisAFaturaFoiQuitada()
@@ -32,8 +32,8 @@ class ProcessadorDeBoletosTest extends TestCase
         $boletos[] = new Boleto(105);
 
         $processador = new ProcessadorDeBoletos();
-        $actual = $processador->processa($boletos, $fatura);
+        $processador->processa($boletos, $fatura);
 
-        $this->assertTrue($actual);
+        $this->assertTrue($fatura->isPago());
     }
 }
