@@ -2,13 +2,23 @@
 
 namespace Amc\Solid\LSP;
 
-class ContaEstudante extends ContaComum
+class ContaEstudante
 {
     private $milhas;
 
+    /**
+     * @var ManipuladorDeSaldo
+     */
+    private $manipulador;
+
+    public function __construct()
+    {
+        $this->manipulador = new ManipuladorDeSaldo();
+    }
+
     public function deposita($valor)
     {
-        parent::deposita($valor);
+        $this->manipulador->deposita($valor);
         $this->milhas += $valor;
     }
 
@@ -19,6 +29,6 @@ class ContaEstudante extends ContaComum
 
     public function rende()
     {
-        throw new \Exception("Conta de estudante não rende");
+        return null;
     }
 }

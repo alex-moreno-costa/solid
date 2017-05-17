@@ -4,34 +4,33 @@ namespace Amc\Solid\LSP;
 
 class ContaComum
 {
-    protected $saldo;
+    /**
+     * @var ManipuladorDeSaldo
+     */
+    protected $manipulador;
 
     public function __construct()
     {
-        $this->saldo = 0;
+        $this->manipulador = new ManipuladorDeSaldo();
     }
 
     public function saca($valor)
     {
-        if($valor > 0 && $valor <= $this->saldo) {
-            $this->saldo -= $valor;
-        }else {
-            throw new \Exception("Valor inválido para o saque");
-        }
+        $this->manipulador->saca($valor);
     }
 
     public function deposita($valor)
     {
-        $this->saldo += $valor;
+        $this->manipulador->deposita($valor);
     }
 
     public function getSaldo()
     {
-        return $this->saldo;
+        return $this->manipulador->getSaldo();
     }
 
     public function rende()
     {
-        $this->saldo *= 1.1;
+        $this->manipulador->rende(1.1);
     }
 }
